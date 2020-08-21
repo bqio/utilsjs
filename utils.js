@@ -11,7 +11,7 @@ function fetchText(src) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
     xhr.onload = () => resolve(xhr.responseText)
-    xhr.onprogress = (e) => handleProgress(e)
+    xhr.onprogress = (e) => handleProgress(e, src)
     xhr.onerror = () => reject('Ошибка соединения.')
     xhr.open('GET', src, true)
     xhr.send(null)
@@ -28,7 +28,7 @@ function fetchJson(src) {
         reject('Некорректный JSON.')
       }
     }
-    xhr.onprogress = (e) => handleProgress(e)
+    xhr.onprogress = (e) => handleProgress(e, src)
     xhr.onerror = () => reject('Ошибка соединения.')
     xhr.open('GET', src, true)
     xhr.send(null)
@@ -39,7 +39,7 @@ function b2Kb(b) {
   return b / 1000
 }
 
-function handleProgress(e) {
+function handleProgress(e, src) {
   if (e.lengthComputable) {
     console.log(`Загрузка... (${src}) ${b2Kb(e.loaded).toFixed(1)} KB / ${b2Kb(e.total).toFixed(1)} KB`)
   } else {
